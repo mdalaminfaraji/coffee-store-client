@@ -16,23 +16,27 @@ const Product = ({product, setProduct, products}) => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then(() => {
-            fetch(`http://localhost:5000/coffee/${id}`,{
-                method:'DELETE',
-            })
-            .then(res=>res.json())
-            .then(data=>{
-                console.log(data);
-                if (data.deletedCount>0) {
-                    Swal.fire(
-                      'Deleted!',
-                      'Your coffee has been deleted.',
-                      'success'
-                    )
-                  }
-            });
-            const remaining=products.filter(pro=>pro._id!==id);
-            setProduct(remaining);
+          }).then((result) => {
+            console.log(result);
+               if(result.isConfirmed){
+                fetch(`http://localhost:5000/coffee/${id}`,{
+                            method:'DELETE',
+                        })
+                        .then(res=>res.json())
+                        .then(data=>{
+                            console.log(data);
+                            if (data.deletedCount>0) {
+                                Swal.fire(
+                                  'Deleted!',
+                                  'Your coffee has been deleted.',
+                                  'success'
+                                )
+                              }
+                        });
+                        const remaining=products.filter(pro=>pro._id!==id);
+                        setProduct(remaining);
+               }
+        //    
             
           })
        
